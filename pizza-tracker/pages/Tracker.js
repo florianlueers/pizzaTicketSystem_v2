@@ -100,7 +100,7 @@ export default function Tracker() {
                 <h3> Ready for Pick-Up</h3>
             </div>
             {data.map((item, index) => (
-                <PizzaTracker item={item} />
+                <PizzaTracker key={index} item={item} />
             ))}
         </>
     )
