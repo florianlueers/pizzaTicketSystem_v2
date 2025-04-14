@@ -1,0 +1,141 @@
+{
+    _id: ObjectId('67fd0c1d725fccc0ae85483c'),
+        availablePizzas: [
+            {
+                name: 'Margarita',
+                image: '/margherita-pizza.png',
+                toppingList: [
+                    'tomato sauce',
+                    'mozzarella',
+                    'basil'
+                ],
+                toppings: [
+                    {
+                        name: 'tomato sauce',
+                        disabled: true
+                    },
+                    {
+                        name: 'mozzarella',
+                        disabled: true
+                    },
+                    {
+                        name: 'basil',
+                        disabled: true
+                    }
+                ]
+            },
+            {
+                name: 'Salami',
+                image: '/salami-pizza.png',
+                toppingList: [
+                    'tomato sauce',
+                    'mozzarella',
+                    'salami milano'
+                ],
+                toppings: [
+                    {
+                        name: 'tomato sauce',
+                        disabled: true
+                    },
+                    {
+                        name: 'mozzarella',
+                        disabled: true
+                    },
+                    {
+                        name: 'salami milano',
+                        disabled: false
+                    }
+                ]
+            },
+            {
+                name: 'Anti-pasti',
+                image: '/antipasti-pizza.png',
+                toppingList: [
+                    'tomato sauce',
+                    'mozzarella',
+                    'onions',
+                    'artichokes',
+                    'onions',
+                    'sun-dried tomatoes',
+                    'mushrooms'
+                ],
+                toppings: [
+                    {
+                        name: 'tomato sauce',
+                        disabled: true
+                    },
+                    {
+                        name: 'mozzarella',
+                        disabled: true
+                    },
+                    {
+                        name: 'onions',
+                        disabled: false
+                    },
+                    {
+                        name: 'artichokes',
+                        disabled: false
+                    },
+                    {
+                        name: 'onions',
+                        disabled: false
+                    },
+                    {
+                        name: 'sun-dried tomatoes',
+                        disabled: false
+                    },
+                    {
+                        name: 'mushrooms',
+                        disabled: false
+                    }
+                ]
+            }
+        ],
+            allToppings: [
+                {
+                    name: 'tomato sauce',
+                    disabled: true
+                },
+                {
+                    name: 'mozzarella',
+                    disabled: false
+                },
+                {
+                    name: 'vegan cheese',
+                    disabled: false
+                },
+                {
+                    name: 'basil',
+                    disabled: false
+                },
+                {
+                    name: 'salami milano',
+                    disabled: false
+                },
+
+                {
+                    name: 'artichokes',
+                    disabled: false
+                },
+                {
+                    name: 'onions',
+                    disabled: false
+                },
+                {
+                    name: 'sun-dried tomatoes',
+                    disabled: false
+                },
+                {
+                    name: 'mushrooms',
+                    disabled: false
+                },
+                {
+                    name: 'chili oil',
+                    disabled: false
+                },
+                {
+                    name: 'garlic oil',
+                    disabled: false
+                }
+            ]
+}
