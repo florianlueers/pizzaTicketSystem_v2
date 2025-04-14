@@ -112,13 +112,12 @@
                     name: 'salami milano',
                     disabled: false
                 },
-
                 {
-                    name: 'artichokes',
+                    name: 'onions',
                     disabled: false
                 },
                 {
-                    name: 'onions',
+                    name: 'artichokes',
                     disabled: false
                 },
                 {
