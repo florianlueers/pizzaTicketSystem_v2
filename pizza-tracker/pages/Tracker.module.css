@@ -1,0 +1,60 @@
+.TrackerTitle {
+    display: flex;
+}
+
+.TrackerTitle h3 {
+    width: 300px;
+    font-size: 25px;
+    text-align: center;
+    margin: 0 0 5px 0;
+}
+
+.PizzaTracker {
+    display: flex
+}
+
+.OrderReceivedArea {
+    width: 300px;
+    height: 40px;
+}
+
+.InPreparationArea {
+    width: 300px;
+    height: 40px;
+    border-left-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.InTheOvenArea {
+    width: 300px;
+    height: 40px;
+    border-left-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.ReadyForPickUpArea {
+    width: 300px;
+    height: 40px;    
+    border-left-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.Pizza {
+    display: flex;
+    align-items: center;
+    margin: 5px 5px;
+}
+
+.PizzaIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.PizzaInfo {
+    margin-left: 5px;
+    font-size: 20px;
+}

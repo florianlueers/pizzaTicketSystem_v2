@@ -1,0 +1,65 @@
+.ModalArea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.StepOneMain {
+    display: flex;
+    flex-direction: column;
+}
+
+.modalH2 {
+    margin: 0px 0px;
+    margin-bottom: 15px;
+}
+
+.ImageContainer {
+    display: flex;
+    margin: 5px 0px;
+    border-radius: 5px;
+}
+
+.ImageContainer:hover {
+    background-color: rgb(240, 240, 240);
+    border-radius: 5px;
+}
+
+.ImageOuter {
+    overflow: hidden;
+    min-width: 150px;
+    border-radius: 5px;
+    max-height: 150px;
+}
+
+.ImageContainerImage {
+    border-radius: 5px;
+    transition: transform .2s ease-in-out;
+}
+
+.ImageContainer:hover .ImageContainerImage {
+    transform: scale(1.2);
+    border-radius: 5px;
+}
+
+.ImageText {
+    font-size: 25px;
+    margin-left: 10px;
+    max-height: 150px;
+}
+
+.toppingsList {
+    font-size: 15px;
+    color: slategray;
+}
+
+.bottomArea {
+    display: flex;
+    margin-top: auto; /* push custom area to the bottom */
+    max-height: 56px;
+}
+
+.CustomOrderButton {
+    margin-left: auto;
+    margin-right: 0;
+}
