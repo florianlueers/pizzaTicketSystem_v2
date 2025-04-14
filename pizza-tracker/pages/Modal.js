@@ -171,8 +171,8 @@ export default function MyModal({ modalOpen, setModalOpen }) {
           </Stack>
           <div className={styles.bottomArea}>
             <Button onClick={() => setStep(0)}>Back</Button>
-            <TextField label="Your Name" value={order.name} onChange={(event) => setOrder((prevOrder) => ({ ...prevOrder, name: event.target.value }))} />
-            <Button onClick={() => sendOrder()} variant="contained">Place order</Button>
+            <TextField className={styles.textField} label="Your Name" value={order.name} onChange={(event) => setOrder((prevOrder) => ({ ...prevOrder, name: event.target.value }))} />
+            <Button onClick={() => sendOrder()} variant="contained">Finish</Button>
           </div>
         </div>
       )}
