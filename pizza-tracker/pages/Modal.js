@@ -2,15 +2,40 @@ import Modal from 'react-modal';
 import styles from './Modal.module.css';
 
 import { Stack, TextField, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function MyModal({ modalOpen, setModalOpen }) {
+
+  const [pizzaSettings, setPizzaSettings] = useState({availablePizzas: [], toppings: []});
+  
+  const fetchData = async () => {
+      try {
+          const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
+          }
+          const jsonData = await response.json();
+          setPizzaSettings(jsonData.message);
+      } catch (error) {
+          console.error("Error fetching data:", error);
+      }
+  };
+
+  useEffect(() => {
+      const intervalId = setInterval(() => {
+          fetchData();
+      }, 1000); // Fetch data every seconds
+
+      return () => clearInterval(intervalId);
+  }, []);
+
+
   // State für das Bestellformular
   const [order, setOrder] = useState({
     step: 0,
     type: undefined,
-    toppings: [],
+    toppings: ["tomato sauce"],
     name: "",
   });
 
@@ -70,13 +95,6 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     closeModal();
   };
 
-  // Pizza-Daten für die Auswahl
-  const pizzas = [
-    { type: "Margherita", image: "/margherita-pizza.png", toppings: ["tomato sauce", "mozzarella", "basil"] },
-    { type: "salami", image: "/salami-pizza.png", toppings: ["tomato sauce", "mozzarella", "salami milano"] },
-    { type: "anti-pasti", image: "/antipasti-pizza.png", toppings: ["tomato sauce", "mozzarella", "onions", "artichokes", "sun-dried tomatoes", "mushrooms"] },
-  ];
-
   return (
     <Modal
       isOpen={modalOpen}
@@ -95,19 +113,19 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       {order.step === 0 && (
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>Please select your pizza</h2>
-          {pizzas.map((pizza) => (
-            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza.type)} key={pizza.type}>
+          {pizzaSettings["availablePizzas"].map((pizza, index) => (
+            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza.name)} key={index}>
               <div className={styles.ImageOuter}>
-                <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza.image} alt={`Pizza ${pizza.type}`} />
+                <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
               </div>
-              <div className={styles.ImageText}>
-                Pizza<br />{pizza.type}
-                <div className={styles.toppingsList}>{pizza.toppings.join(", ")}</div>
+              <div className={styles.ImageText} key={index}>
+                Pizza<br />{pizza.name}
+                <div className={styles.toppingsList}>{pizza.toppingList.join(", ")}</div>
               </div>
             </div>
           ))}
           <div className={styles.bottomArea}>
-            <Button className={styles.CustomOrderButton} variant="contained" onClick={() => setPizzaType("custom")}>CUSTOM ORDER</Button>
+            <Button className={styles.OrderButton} variant="contained" onClick={() => setPizzaType("custom")}>CUSTOM ORDER</Button>
           </div>
         </div>
       )}
@@ -117,20 +135,22 @@ export default function MyModal({ modalOpen, setModalOpen }) {
           <h2 className={styles.modalH2}>Choose your Toppings:</h2>
           <Stack spacing={2}>
             <FormGroup>
-              {["tomato sauce", "mozzarella", "salami milano", "salami finocchino", "chili oil", "garlic oil", "onions", "artichokes", "sun-dried tomatoes", "mushrooms", "basil"].map((topping) => (
+              {pizzaSettings["allToppings"].map((topping) => (
                 <FormControlLabel
                   key={topping}
                   control={<Checkbox />}
-                  label={topping}
-                  onChange={(event) => changeIngredients(event.target.checked, topping)}
+                  label={topping["name"]}
+                  checked={order.toppings.includes(topping["name"])}
+                  disabled={topping["disabled"]}
+                  onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
                 />
               ))}
             </FormGroup>
           </Stack>
           <div className={styles.bottomArea}>
             <Button onClick={() => setStep(0)}>Back</Button>
-            <TextField label="Your Name" value={order.name} onChange={(event) => setOrder((prevOrder) => ({ ...prevOrder, name: event.target.value }))} />
-            <Button onClick={() => sendOrder()} variant="contained">Place order</Button>
+            <TextField className={styles.textField} label="Your Name" value={order.name} onChange={(event) => setOrder((prevOrder) => ({ ...prevOrder, name: event.target.value }))} />
+            <Button onClick={() => sendOrder()} variant="contained">Finish</Button>
           </div>
         </div>
       )}
@@ -140,34 +160,13 @@ export default function MyModal({ modalOpen, setModalOpen }) {
           <h2 className={styles.modalH2}>Any additional toppings?</h2>
           <Stack spacing={2}>
             <FormGroup>
-              {order.type === "Margherita" && (
-                <>
-                  <FormControlLabel control={<Checkbox disabled checked />} label="tomato sauce" />
-                  <FormControlLabel control={<Checkbox disabled checked />} label="mozzarella" />
-                  <FormControlLabel control={<Checkbox disabled checked />} label="basil" />
-                </>
-              )}
-              {order.type === "salami" && (
-                <>
-                  <FormControlLabel control={<Checkbox disabled checked />} label="tomato sauce" />
-                  <FormControlLabel control={<Checkbox disabled checked />} label="mozzarella" />
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="salami milano" onChange={(event) => changeIngredients(event.target.checked, "salami milano")} />
-                </>
-              )}
-              {order.type === "anti-pasti" && (
-                <>
-                  <FormControlLabel control={<Checkbox disabled checked />} label="tomato sauce" />
-                  <FormControlLabel control={<Checkbox disabled checked />} label="mozzarella" />
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="onions" onChange={(event) => changeIngredients(event.target.checked, "onions")} />
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="artichokes" onChange={(event) => changeIngredients(event.target.checked, "artichokes")} />
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="sun-dried tomatoes" onChange={(event) => changeIngredients(event.target.checked, "sun-dried tomatoes")} />
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="mushrooms" onChange={(event) => changeIngredients(event.target.checked, "mushrooms")} />
-                </>
-              )}
-              {/* Additional toppings */}
-              <FormControlLabel control={<Checkbox />} label="chili oil" onChange={(event) => changeIngredients(event.target.checked, "chili oil")} />
-              <FormControlLabel control={<Checkbox />} label="garlic oil" onChange={(event) => changeIngredients(event.target.checked, "garlic oil")} />
-              <FormControlLabel control={<Checkbox />} label="basil" onChange={(event) => changeIngredients(event.target.checked, "basil")} />
+              { pizzaSettings["availablePizzas"].map((pizza, index) => (
+                pizza.name === order.type && (
+                  pizza.toppings.map((topping, index) => (
+                    <p>{topping.name}</p>
+                  ))
+                )
+              ))}
             </FormGroup>
           </Stack>
           <div className={styles.bottomArea}>

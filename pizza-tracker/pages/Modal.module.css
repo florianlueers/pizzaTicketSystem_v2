@@ -55,11 +55,16 @@
 
 .bottomArea {
     display: flex;
-    margin-top: auto; /* push custom area to the bottom */
+    margin-top: auto;
     max-height: 56px;
+    width: 100%;
 }
 
-.CustomOrderButton {
+.textField {
+    flex: 1;
+    margin: 0 4px; 
+}
+
+.OrderButton {
     margin-left: auto;
-    margin-right: 0;
 }
