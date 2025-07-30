@@ -1,0 +1,120 @@
+{
+    _id: ObjectId('688a2273f32bf601806eb955'),
+    availablePizzas: [
+        {
+            "name": "Margarita",
+            "image": "/margherita-pizza.png",
+            "toppingList": ["tomato sauce", "mozzarella", "basil"],
+            "toppings": [
+                {
+                    "name": "tomato sauce",
+                    "disabled": true
+                },
+                {
+                    "name": "mozzarella",
+                    "disabled": false
+                },
+                {
+                    "name": "basil",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "name": "Salami",
+            "image": "/salami-pizza.png",
+            "toppingList": ["tomato sauce", "mozzarella", "salami milano"],
+            "toppings": [
+                {
+                    "name": "tomato sauce",
+                    "disabled": true
+                },
+                {
+                    "name": "mozzarella",
+                    "disabled": false
+                },
+                {
+                    "name": "salami milano",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "name": "Anti-Pasti",
+            "image": "/antipasti-pizza.png",
+            "toppingList": ["tomato sauce", "mozzarella", "onions", "artichokes", "sun-dried tomatoes", "mushrooms"],
+            "toppings": [
+                {
+                    "name": "tomato sauce",
+                    "disabled": true
+                },
+                {
+                    "name": "mozzarella",
+                    "disabled": false
+                },
+                {
+                    "name": "onions",
+                    "disabled": false
+                }, 
+                {
+                    "name": "artichokes",
+                    "disabled": false
+                },
+                {
+                    "name": "sun-dried tomatoes",
+                    "disabled": false
+                },
+                {
+                    "name": "mushrooms",
+                    "disabled": false
+                }
+            ]
+        }
+    ],
+    allToppings: [
+        {
+            "name": "tomato sauce",
+            "disabled": true
+        },
+        {
+            "name": "mozzarella",
+            "disabled": false
+        },
+        {
+            "name": "salami milano",
+            "disabled": false
+        },
+        {
+            "name": "salami finocchino",
+            "disabled": false
+        },
+        {
+            "name": "onions",
+            "disabled": false
+        },
+        {
+            "name": "artichokes",
+            "disabled": false
+        },
+        {
+            "name": "sun-dried tomatoes",
+            "disabled": false
+        },
+        {
+            "name": "mushrooms",
+            "disabled": false
+        },
+        {
+            "name": "chili oil",
+            "disabled": false
+        },
+        {
+            "name": "garlic oil",
+            "disabled": false
+        },
+        {
+            "name": "basil",
+            "disabled": false
+        }
+    ]
+}

@@ -1,13 +1,13 @@
 import Modal from 'react-modal';
 import styles from './Modal.module.css';
 
-import { Stack, TextField, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
+import { Stack, TextField, FormGroup, FormControlLabel, Checkbox, Button, avatarClasses } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function MyModal({ modalOpen, setModalOpen }) {
 
-  const [pizzaSettings, setPizzaSettings] = useState({availablePizzas: [], toppings: []});
+  const [pizzaSettings, setPizzaSettings] = useState({availablePizzas: [], allToppings: []});
   
   const fetchData = async () => {
       try {
@@ -37,6 +37,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     type: undefined,
     toppings: ["tomato sauce"],
     name: "",
+    additionalToppings: []
   });
 
   // Funktion zum Schließen des Modals und Zurücksetzen der Bestellung
@@ -49,13 +50,18 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   const setStep = (step) => {
     setOrder((prevOrder) => ({ ...prevOrder, step }));
     if (step === 0) {
-      setOrder((prevOrder) => ({ ...prevOrder, toppings: [] }));
+      setOrder((prevOrder) => ({ ...prevOrder, toppings: ["tomato sauce"], additionalToppings: []}))
     }
   };
 
   // Funktion zur Auswahl des Pizzatyps
-  const setPizzaType = (type) => {
-    setOrder((prevOrder) => ({ ...prevOrder, type }));
+  const setPizzaType = (type, toppingsList) => {
+    if (type !== "custom") {
+      let additionalToppings = pizzaSettings["allToppings"].filter(topping => !toppingsList.includes(topping["name"]))
+      setOrder((prevOrder) => ({ ...prevOrder, type, toppings: toppingsList, additionalToppings }));
+    } else {
+      setOrder((prevOrder) => ({ ...prevOrder, type}));
+    }
     setStep(1);
   };
 
@@ -69,14 +75,21 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     });
   };
 
-  // Funktion zum Senden der Bestellung
-  const sendOrder = async () => {
-    const updatedOrder = {
-      ...order,
+
+  function getUpdatedOrder(order) {
+    const { additionalToppings, ...rest } = order;
+    return {
+      ...rest,
       name: order.name.trim() === "" ? "Anonymous" : order.name,
       status: "offen",
       dt0: Date.now(),
     };
+  }
+
+  // Funktion zum Senden der Bestellung
+  const sendOrder = async () => {
+    const updatedOrder = getUpdatedOrder(order);
+
     try {
       const response = await fetch("http://localhost:3000/api/postPizza", {
         method: "POST",
@@ -114,7 +127,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>Please select your pizza</h2>
           {pizzaSettings["availablePizzas"].map((pizza, index) => (
-            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza.name)} key={index}>
+            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza.name, pizza.toppingList)} key={index}>
               <div className={styles.ImageOuter}>
                 <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
               </div>
@@ -135,9 +148,9 @@ export default function MyModal({ modalOpen, setModalOpen }) {
           <h2 className={styles.modalH2}>Choose your Toppings:</h2>
           <Stack spacing={2}>
             <FormGroup>
-              {pizzaSettings["allToppings"].map((topping) => (
+              {pizzaSettings["allToppings"].map((topping, index) => (
                 <FormControlLabel
-                  key={topping}
+                  key={index}
                   control={<Checkbox />}
                   label={topping["name"]}
                   checked={order.toppings.includes(topping["name"])}
@@ -163,7 +176,28 @@ export default function MyModal({ modalOpen, setModalOpen }) {
               { pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
                   pizza.toppings.map((topping, index) => (
-                    <p>{topping.name}</p>
+                    <FormControlLabel 
+                      key={index}
+                      control={<Checkbox />}
+                      label={topping.name}
+                      checked={order.toppings.includes(topping["name"])}
+                      disabled={topping["disabled"]}
+                      onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
+                    />
+                  ))
+                )
+              ))}
+              {pizzaSettings["availablePizzas"].map((pizza, index) => (
+                pizza.name === order.type && (
+                  order.additionalToppings.map((topping, index) => (
+                    <FormControlLabel
+                      key={index}
+                      control={<Checkbox />}
+                      label={topping.name}
+                      checked={order.toppings.includes(topping["name"])}
+                      disabled={topping["disabled"]}
+                      onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
+                    />
                   ))
                 )
               ))}
