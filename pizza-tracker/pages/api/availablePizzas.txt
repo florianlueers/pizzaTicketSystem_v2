@@ -74,47 +74,58 @@
     allToppings: [
         {
             "name": "tomato sauce",
-            "disabled": true
+            "disabled": true,
+            "available": true
         },
         {
             "name": "mozzarella",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "salami milano",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "salami finocchino",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "onions",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "artichokes",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "sun-dried tomatoes",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "mushrooms",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "chili oil",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "garlic oil",
-            "disabled": false
+            "disabled": false,
+            "available": true
         },
         {
             "name": "basil",
-            "disabled": false
+            "disabled": false,
+            "available": true
         }
     ]
 }

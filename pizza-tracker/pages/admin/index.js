@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import PizzaComponent from "./Component";
-
+import ToppingComponent from "./ToppingComponent";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const [availableToppings, setAvailableToppings] = useState([]);
 
+  // Fetch Pizza-Daten alle 1 Sekunde
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPizzaData = async () => {
       try {
         const response = await fetch("http://localhost:3000/api/getPizza");
         if (!response.ok) {
@@ -14,37 +16,48 @@ export default function Home() {
         }
 
         const jsonData = await response.json();
-        let dataArray = []
-
-        for (let i = 0; i < jsonData.message.length; i++) {
-          if (jsonData.message[i].status != "done") {
-            dataArray.push(jsonData.message[i])
-          }
-        }
-
-        console.log(dataArray)
+        const dataArray = jsonData.message.filter(pizza => pizza.status !== "done");
 
         setData(dataArray);
-
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching pizza data:", error);
       }
     };
 
-    const intervalId = setInterval(() => {
-      fetchData(); // Rufe fetchData alle 5 Sekunden auf
-    }, 1000); // 5 Sekunden in Millisekunden umgerechnet
+    const intervalId = setInterval(fetchPizzaData, 1000);
 
-    // Aufräumen: Stoppe das Intervall, wenn das Komponenten-Unmounted wird
     return () => clearInterval(intervalId);
-  }, []); // Leeres Dependency Array, um den Effekt nur einmal bei der Montage auszuführen
+  }, []);
 
+  // Fetch Toppings einmalig
+  useEffect(() => {
+    const fetchToppings = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
+        if (!response.ok) {
+          throw new Error("Toppings fetch failed");
+        }
+
+        const json = await response.json();
+        setAvailableToppings(json.message.allToppings || []);
+      } catch (error) {
+        console.error("Error fetching toppings:", error);
+      }
+    };
+
+    fetchToppings();
+  }, []);
 
   return (
     <>
       <h1>ADMIN PAGE</h1>
 
-      {Array.isArray(data) && data.map((item, index) => (
+      {availableToppings.map((topping, index) => (
+        <ToppingComponent key={index} data={topping} />
+      ))}
+      <hr/> 
+
+      {data.map((item, index) => (
         <PizzaComponent key={index} pizza={item} />
       ))}
     </>
