@@ -30,8 +30,8 @@ function Pizza({ item }) {
 function PizzaTracker({ item }) {
 
     if (item.status !== "done") {
-        var audio = new Audio('bell.wav');
-        if (item.status === "available") {audio.play();}
+        // var audio = new Audio('bell.wav');
+        // if (item.status === "available") {audio.play();}
 
         return (
             <div className={styles.PizzaTracker}>
