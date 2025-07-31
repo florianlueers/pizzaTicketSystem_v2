@@ -7,27 +7,28 @@ import Image from 'next/image';
 
 export default function MyModal({ modalOpen, setModalOpen }) {
 
-  const [pizzaSettings, setPizzaSettings] = useState({availablePizzas: [], allToppings: []});
-  
+  const [pizzaSettings, setPizzaSettings] = useState({ availablePizzas: [], allToppings: [] });
+
   const fetchData = async () => {
-      try {
-          const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
-          if (!response.ok) {
-              throw new Error("Network response was not ok");
-          }
-          const jsonData = await response.json();
-          setPizzaSettings(jsonData.message);
-      } catch (error) {
-          console.error("Error fetching data:", error);
+    try {
+      const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
+      const jsonData = await response.json();
+      setPizzaSettings(jsonData.message);
+      console.log(jsonData.message)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
-      const intervalId = setInterval(() => {
-          fetchData();
-      }, 1000); // Fetch data every seconds
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 1000); // Fetch data every seconds
 
-      return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, []);
 
 
@@ -50,20 +51,41 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   const setStep = (step) => {
     setOrder((prevOrder) => ({ ...prevOrder, step }));
     if (step === 0) {
-      setOrder((prevOrder) => ({ ...prevOrder, toppings: ["tomato sauce"], additionalToppings: []}))
+      setOrder((prevOrder) => ({ ...prevOrder, toppings: ["tomato sauce"], additionalToppings: [] }))
     }
   };
 
   // Funktion zur Auswahl des Pizzatyps
   const setPizzaType = (type, toppingsList) => {
     if (type !== "custom") {
-      let additionalToppings = pizzaSettings["allToppings"].filter(topping => !toppingsList.includes(topping["name"]))
-      setOrder((prevOrder) => ({ ...prevOrder, type, toppings: toppingsList, additionalToppings }));
+      // Filter für verfügbare Toppings aus toppingsList
+      const availableToppings = toppingsList.filter(toppingName =>
+        pizzaSettings.allToppings.find(
+          topping => topping.name === toppingName && topping.available
+        )
+      );
+
+      // additionalToppings sind alle verfügbaren Toppings, die NICHT in availableToppings sind
+      const additionalToppings = pizzaSettings.allToppings.filter(
+        topping =>
+          topping.available &&
+          !availableToppings.includes(topping.name)
+      );
+
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        type,
+        toppings: availableToppings,
+        additionalToppings,
+      }));
     } else {
-      setOrder((prevOrder) => ({ ...prevOrder, type}));
+      setOrder((prevOrder) => ({ ...prevOrder, type }));
     }
+
     setStep(1);
   };
+
+
 
   // Funktion zum Ändern der Toppings
   const changeIngredients = (input, label) => {
@@ -154,7 +176,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                   control={<Checkbox />}
                   label={topping["name"]}
                   checked={order.toppings.includes(topping["name"])}
-                  disabled={topping["disabled"]}
+                  disabled={topping["disabled"] || !topping["available"]}
                   onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
                 />
               ))}
@@ -173,15 +195,15 @@ export default function MyModal({ modalOpen, setModalOpen }) {
           <h2 className={styles.modalH2}>Any additional toppings?</h2>
           <Stack spacing={2}>
             <FormGroup>
-              { pizzaSettings["availablePizzas"].map((pizza, index) => (
+              {pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
                   pizza.toppings.map((topping, index) => (
-                    <FormControlLabel 
+                    <FormControlLabel
                       key={index}
                       control={<Checkbox />}
                       label={topping.name}
                       checked={order.toppings.includes(topping["name"])}
-                      disabled={topping["disabled"]}
+                      disabled={topping["disabled"] || !topping["available"]}
                       onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
                     />
                   ))
@@ -195,9 +217,10 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                       control={<Checkbox />}
                       label={topping.name}
                       checked={order.toppings.includes(topping["name"])}
-                      disabled={topping["disabled"]}
+                      disabled={topping["disabled"] || !topping["available"]}
                       onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
                     />
+
                   ))
                 )
               ))}
