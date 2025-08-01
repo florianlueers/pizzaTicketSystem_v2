@@ -6,16 +6,20 @@ export default function ToppingComponent({ data }) {
     const [available, setAvailable] = useState(data.available);
 
     const handleClick = async () => {
-        setAvailable(false);
+        const newAvailable = !available;
+        setAvailable(newAvailable);
 
         try {
-            await fetch("/api/setToppingUnavailable", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name }),
-            });
+            await fetch(
+                newAvailable ? "/api/setToppingAvailable" : "/api/setToppingUnavailable",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name }),
+                }
+            );
         } catch (err) {
             console.error("Fehler beim Aktualisieren des Toppings:", err);
         }

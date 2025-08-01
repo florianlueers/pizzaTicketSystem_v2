@@ -1,0 +1,24 @@
+.mainBody {
+    max-width: 1260px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header Button {
+    background-color: green;
+    font: 2em sans-serif;
+}
+
+.lol {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: lightgrey;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 30px 30px;
+}

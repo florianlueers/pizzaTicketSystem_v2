@@ -103,7 +103,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     return {
       ...rest,
       name: order.name.trim() === "" ? "Anonymous" : order.name,
-      status: "offen",
+      status: "open",
       dt0: Date.now(),
     };
   }

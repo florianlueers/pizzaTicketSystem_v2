@@ -28,7 +28,7 @@ const PizzaComponent = (pizza) => {
     async function increaseStatus()  {
         console.log(object)
         let newData = {dt0: dt0}  
-        if (status === "offen") {
+        if (status === "open") {
             newData.status = "being prepared"
             newData.dt1 = Date.now()
         }

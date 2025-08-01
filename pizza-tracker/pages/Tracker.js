@@ -36,7 +36,7 @@ function PizzaTracker({ item }) {
         return (
             <div className={styles.PizzaTracker}>
                 <div className={styles.OrderReceivedArea}>
-                    {item.status == "offen" && (
+                    {item.status == "open" && (
                         <Pizza item={item} />
                     )}
                 </div>
