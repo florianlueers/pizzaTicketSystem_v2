@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className={styles.mainBody}>
       <div className={styles.header}>
-        <h1>😋🍕chen</h1>
+        <h1>Pizza Tracker</h1>
       </div>
 
       <div className={styles.lol}>

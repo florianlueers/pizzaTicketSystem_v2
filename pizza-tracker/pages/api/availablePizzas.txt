@@ -4,69 +4,73 @@
         {
             "name": "Margarita",
             "image": "/margherita-pizza.png",
-            "toppingList": ["tomato sauce", "mozzarella", "basil"],
-            "toppings": [
+            "extras": ["basil", "chili oil", "olive oil"],
+            "toppingList": [
                 {
                     "name": "tomato sauce",
-                    "disabled": true
+                    "required": true
                 },
                 {
                     "name": "mozzarella",
-                    "disabled": false
+                    "required": true
                 },
                 {
                     "name": "basil",
-                    "disabled": false
+                    "required": true
                 }
             ]
         },
         {
             "name": "Salami",
             "image": "/salami-pizza.png",
-            "toppingList": ["tomato sauce", "mozzarella", "salami milano"],
-            "toppings": [
+            "extras": ["basil", "chili oil", "olive oil"],
+            "toppingList": [
                 {
                     "name": "tomato sauce",
-                    "disabled": true
+                    "required": true
                 },
                 {
                     "name": "mozzarella",
-                    "disabled": false
+                    "required": true
                 },
                 {
                     "name": "salami milano",
-                    "disabled": false
+                    "required": false
+                }
+                {
+                    "name": "salami finocchino",
+                    "required": false
                 }
             ]
         },
         {
             "name": "Anti-Pasti",
             "image": "/antipasti-pizza.png",
-            "toppingList": ["tomato sauce", "mozzarella", "onions", "artichokes", "sun-dried tomatoes", "mushrooms"],
-            "toppings": [
+            "extras": ["basil", "chili oil", "olive oil"],
+            "toppingList": [
                 {
                     "name": "tomato sauce",
-                    "disabled": true
+                    "required": true
                 },
                 {
                     "name": "mozzarella",
-                    "disabled": false
+                    "required": true
                 },
                 {
-                    "name": "onions",
-                    "disabled": false
-                }, 
+                    "name": "olives",
+                    "required": false
+                },
                 {
                     "name": "artichokes",
-                    "disabled": false
+                    "required": false
                 },
                 {
                     "name": "sun-dried tomatoes",
-                    "disabled": false
+                    "required": false
                 },
                 {
                     "name": "mushrooms",
-                    "disabled": false
+                    "required": false
                 }
             ]
         }
@@ -93,7 +97,7 @@
             "available": true
         },
         {
-            "name": "onions",
+            "name": "olives",
             "disabled": false,
             "available": true
         },
