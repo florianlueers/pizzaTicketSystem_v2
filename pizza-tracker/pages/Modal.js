@@ -192,23 +192,22 @@ export default function MyModal({ modalOpen, setModalOpen }) {
 
       {order.step === 1 && order.type !== "custom" && (
         <div className={styles.ModalArea}>
-          <h2 className={styles.modalH2}>Any additional toppings?</h2>
+          <h2 className={styles.modalH2}>You selected:</h2>
           <Stack spacing={2}>
             <FormGroup>
               {pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
-                  pizza.toppings.map((topping, index) => (
-                    <FormControlLabel
-                      key={index}
-                      control={<Checkbox />}
-                      label={topping.name}
-                      checked={order.toppings.includes(topping["name"])}
-                      disabled={topping["disabled"] || !topping["available"]}
-                      onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
-                    />
-                  ))
-                )
-              ))}
+                <div className={styles.ImageContainer} key={index}>
+                  <div className={styles.ImageOuter}>
+                    <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
+                  </div>
+                  <div className={styles.ImageText} key={index}>
+                    Pizza<br />{pizza.name}
+                    <div className={styles.toppingsList}>{pizza.toppingList.join(", ")}</div>
+                  </div>
+                </div>
+              )))}
+              <h2 className={styles.modalH2}>Any additional toppings?</h2>
               {pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
                   order.additionalToppings.map((topping, index) => (
