@@ -64,7 +64,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   };
 
   function getAvailablePizzas() {
-    return Object.values(pizzaSettings["availablePizzas"]).filter(pizza => {
+    return pizzaSettings["availablePizzas"].filter(pizza => {
       // Prüfe required-Toppings
       const requiredAvailable = pizza.toppingList.required.every(toppingName =>
         pizzaSettings.allToppings.some(
@@ -118,16 +118,6 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     });
   };
 
-    // Funktion zum Ändern der Extras
-  const changeExtras = (input, label) => {
-    setOrder((prevOrder) => {
-      const updatedExtras = input
-        ? [...prevOrder.extras, label]
-        : prevOrder.extras.filter((extra) => extra !== label);
-      return { ...prevOrder, extras: updatedExtras };
-    });
-  };
-
 
   function getUpdatedOrder(order) {
     const { additionalToppings, ...rest } = order;
@@ -170,7 +160,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
         content: {
           top: "50%",
           left: '50%',
-          width: "400px",
+          width: "800px",
           height: "600px",
           transform: 'translate(-50%, -50%)',
         }
@@ -179,22 +169,50 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       {order.step === 0 && (
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>Please select your pizza</h2>
-          {getAvailablePizzas().map((pizza, index) => (
-            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza)} key={index}>
-              <div className={styles.ImageOuter}>
-                <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
-              </div>
-              <div className={styles.ImageText} key={index}>
-                Pizza<br />{pizza.name}
-                <div className={styles.toppingsList}>
-                  {pizza.name === "Custom"
-                    ? "Create your own pizza with your favorite toppings!"
-                    : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
-                  }
-                </div>
-              </div>
+          <div style={{ display: "flex", gap: "32px" }}>
+            {/* Erste Spalte mit maximal 3 Pizzen */}
+            <div>
+              {getAvailablePizzas()
+                .slice(0, 3)
+                .map((pizza, index) => (
+                  <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza)} key={index}>
+                    <div className={styles.ImageOuter}>
+                      <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
+                    </div>
+                    <div className={styles.ImageText} key={index}>
+                      Pizza<br />{pizza.name}
+                      <div className={styles.toppingsList}>
+                        {pizza.name === "Custom"
+                          ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
+                        }
+                      </div>
+                    </div>
+                  </div>
+              ))}
             </div>
-          ))}
+            {/* Zweite Spalte mit den restlichen Pizzen */}
+            <div>
+              {getAvailablePizzas()
+                .slice(3)
+                .map((pizza, index) => (
+                  <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza)} key={index + 3}>
+                    <div className={styles.ImageOuter}>
+                      <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
+                    </div>
+                    <div className={styles.ImageText} key={index + 3}>
+                      Pizza<br />{pizza.name}
+                      <div className={styles.toppingsList}>
+                        {pizza.name === "Custom"
+                          ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
+                        }
+                      </div>
+                    </div>
+                  </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 

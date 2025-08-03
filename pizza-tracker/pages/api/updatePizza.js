@@ -6,6 +6,55 @@ const url = "mongodb://root:root@mongo:27017"
 const client = new MongoClient(url)
 
 
+/**
+ * @swagger
+ * /api/updatePizza:
+ *   post:
+ *     summary: Aktualisiert den Status und ein Zeitfeld (dt1–dt4) einer Pizza
+ *     description: Diese Route aktualisiert den Status und eines der Zeitfelder (`dt1`, `dt2`, `dt3` oder `dt4`) eines vorhandenen Pizza-Dokuments in der MongoDB basierend auf `dt0`.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - dt0
+ *               - status
+ *             properties:
+ *               dt0:
+ *                 type: integer
+ *                 format: int64
+ *                 description: Zeitstempel zur Identifikation der Pizza (meist bei Erstellung vergeben)
+ *                 example: 1751454849396
+ *               status:
+ *                 type: string
+ *                 description: Neuer Status der Pizza
+ *                 example: cooking
+ *               dt2:
+ *                 type: integer
+ *                 format: int64
+ *                 description: Zeitstempel für Schritt 2 (optional)
+ *                 example: 1751455157256 
+ *     responses:
+ *       200:
+ *         description: Pizza erfolgreich aktualisiert
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Daten erfolgreich empfangen
+ *       405:
+ *         description: Methode nicht erlaubt
+ *       500:
+ *         description: Interner Serverfehler
+ */
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
