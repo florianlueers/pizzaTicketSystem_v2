@@ -4,75 +4,46 @@
         {
             "name": "Margarita",
             "image": "/margherita-pizza.png",
-            "extras": ["basil", "chili oil", "olive oil"],
-            "toppingList": [
-                {
-                    "name": "tomato sauce",
-                    "required": true
-                },
-                {
-                    "name": "mozzarella",
-                    "required": true
-                },
-                {
-                    "name": "basil",
-                    "required": true
-                }
-            ]
+            "extras": ["chili oil", "garlic oil"],
+            "toppingList": {
+                "required": ["tomato sauce", "mozzarella", "basil"],
+                "optional": []
+            }
         },
         {
             "name": "Salami",
             "image": "/salami-pizza.png",
-            "extras": ["basil", "chili oil", "olive oil"],
-            "toppingList": [
-                {
-                    "name": "tomato sauce",
-                    "required": true
-                },
-                {
-                    "name": "mozzarella",
-                    "required": true
-                },
-                {
-                    "name": "salami milano",
-                    "required": false
+            "extras": ["basil", "chili oil", "garlic oil"],
+            "toppingList": {
+                "required": ["tomato sauce", "mozzarella"],
+                "optional": {
+                    "count": 1,
+                    "requiredCount": 1,
+                    "toppings": ["salami milano", "salami finocchino"]
                 }
-                {
-                    "name": "salami finocchino",
-                    "required": false
-                }
-            ]
+            }
         },
         {
             "name": "Anti-Pasti",
             "image": "/antipasti-pizza.png",
-            "extras": ["basil", "chili oil", "olive oil"],
-            "toppingList": [
-                {
-                    "name": "tomato sauce",
-                    "required": true
-                },
-                {
-                    "name": "mozzarella",
-                    "required": true
-                },
-                {
-                    "name": "olives",
-                    "required": false
-                },
-                {
-                    "name": "artichokes",
-                    "required": false
-                },
-                {
-                    "name": "sun-dried tomatoes",
-                    "required": false
-                },
-                {
-                    "name": "mushrooms",
-                    "required": false
+            "extras": ["basil", "chili oil", "garlic oil"],
+            "toppingList": {
+                "required": ["tomato sauce", "mozzarella"],
+                "optional": {
+                    "count": 4,
+                    "requiredCount": 2,
+                    "toppings": ["olives", "artichokes", "sun-dried tomatoes", "mushrooms"]
                 }
-            ]
+            }
+        },
+        {
+            "name": "Custom",
+            "image": "/custom-pizza.png",
+            "extras": [],
+            "toppingList": {
+                "required": [],
+                "optional": []
+            }
         }
     ],
     allToppings: [

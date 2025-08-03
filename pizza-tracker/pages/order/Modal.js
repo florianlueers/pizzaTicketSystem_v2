@@ -36,64 +36,95 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   const [order, setOrder] = useState({
     step: 0,
     type: undefined,
-    toppings: ["tomato sauce"],
-    name: "",
-    additionalToppings: []
+    toppings: [],
+    name: ""
   });
 
   // Funktion zum Schließen des Modals und Zurücksetzen der Bestellung
   const closeModal = () => {
     setModalOpen(false);
-    setOrder({ step: 0, type: undefined, toppings: [], name: "" });
+    setOrder({ step: 0, type: undefined, toppings: [], name: "" , extras: [] });
   };
 
   // Funktion zur Änderung des Bestell-Schritts
   const setStep = (step) => {
     setOrder((prevOrder) => ({ ...prevOrder, step }));
-    if (step === 0) {
-      setOrder((prevOrder) => ({ ...prevOrder, toppings: ["tomato sauce"], additionalToppings: [] }))
-    }
   };
 
   // Funktion zur Auswahl des Pizzatyps
-  const setPizzaType = (type, toppingsList) => {
-    if (type !== "custom") {
-      // Filter für verfügbare Toppings aus toppingsList
-      const availableToppings = toppingsList.filter(toppingName =>
-        pizzaSettings.allToppings.find(
-          topping => topping.name === toppingName && topping.available
-        )
-      );
-
-      // additionalToppings sind alle verfügbaren Toppings, die NICHT in availableToppings sind
-      const additionalToppings = pizzaSettings.allToppings.filter(
-        topping =>
-          topping.available &&
-          !availableToppings.includes(topping.name)
-      );
-
-      setOrder((prevOrder) => ({
-        ...prevOrder,
-        type,
-        toppings: availableToppings,
-        additionalToppings,
-      }));
+  const setPizzaType = (pizza) => {
+    if (pizza.name === "Custom") {
+      // Hier können Sie die Logik für benutzerdefinierte Pizzen hinzufügen
+      setOrder((prevOrder) => ({ ...prevOrder, type: "custom", toppings:["tomato sauce"] }));
     } else {
-      setOrder((prevOrder) => ({ ...prevOrder, type }));
+      setOrder((prevOrder) => ({ ...prevOrder, type: pizza.name }));
     }
 
     setStep(1);
   };
 
+  function getAvailablePizzas() {
+    return Object.values(pizzaSettings["availablePizzas"]).filter(pizza => {
+      // Prüfe required-Toppings
+      const requiredAvailable = pizza.toppingList.required.every(toppingName =>
+        pizzaSettings.allToppings.some(
+          topping => topping.name === toppingName && topping.available
+        )
+      );
 
+      // Prüfe optional-Toppings (falls vorhanden)
+      let optionalAvailable = true;
+      if (
+        pizza.toppingList.optional &&
+        typeof pizza.toppingList.optional === "object" &&
+        pizza.toppingList.optional.count
+      ) {
+        const availableOptionalCount = pizza.toppingList.optional.toppings.filter(toppingName =>
+          pizzaSettings.allToppings.some(
+            topping => topping.name === toppingName && topping.available
+          )
+        ).length;
+        optionalAvailable = availableOptionalCount >= pizza.toppingList.optional.requiredCount;
+      }
 
+      return requiredAvailable && optionalAvailable;
+    });
+  }
+
+  // getAvailableOptionalToppings
+  function getAvailableOptionalToppings(pizza) {
+    if (
+      !pizza.toppingList.optional ||
+      !Array.isArray(pizza.toppingList.optional.toppings)
+    ) {
+      return [];
+    }
+    return pizza.toppingList.optional.toppings
+      .filter(toppingName =>
+        pizzaSettings.allToppings.some(
+          topping => topping.name === toppingName && topping.available
+        )
+      )
+      .slice(0, pizza.toppingList.optional.count);
+  }
+  
   // Funktion zum Ändern der Toppings
-  const changeIngredients = (input, label) => {
+  const changeToppings = (input, label) => {
     setOrder((prevOrder) => {
       const updatedToppings = input
         ? [...prevOrder.toppings, label]
         : prevOrder.toppings.filter((topping) => topping !== label);
       return { ...prevOrder, toppings: updatedToppings };
+    });
+  };
+
+    // Funktion zum Ändern der Extras
+  const changeExtras = (input, label) => {
+    setOrder((prevOrder) => {
+      const updatedExtras = input
+        ? [...prevOrder.extras, label]
+        : prevOrder.extras.filter((extra) => extra !== label);
+      return { ...prevOrder, extras: updatedExtras };
     });
   };
 
@@ -148,20 +179,22 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       {order.step === 0 && (
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>Please select your pizza</h2>
-          {pizzaSettings["availablePizzas"].map((pizza, index) => (
-            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza.name, pizza.toppingList)} key={index}>
+          {getAvailablePizzas().map((pizza, index) => (
+            <div className={styles.ImageContainer} onClick={() => setPizzaType(pizza)} key={index}>
               <div className={styles.ImageOuter}>
                 <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
               </div>
               <div className={styles.ImageText} key={index}>
                 Pizza<br />{pizza.name}
-                <div className={styles.toppingsList}>{pizza.toppingList.join(", ")}</div>
+                <div className={styles.toppingsList}>
+                  {pizza.name === "Custom"
+                    ? "Create your own pizza with your favorite toppings!"
+                    : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
+                  }
+                </div>
               </div>
             </div>
           ))}
-          <div className={styles.bottomArea}>
-            <Button className={styles.OrderButton} variant="contained" onClick={() => setPizzaType("custom")}>CUSTOM ORDER</Button>
-          </div>
         </div>
       )}
 
@@ -174,10 +207,10 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                 <FormControlLabel
                   key={index}
                   control={<Checkbox />}
-                  label={topping["name"]}
-                  checked={order.toppings.includes(topping["name"])}
-                  disabled={topping["disabled"] || !topping["available"]}
-                  onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
+                  label={topping.name}
+                  checked={order.toppings.includes(topping.name)}
+                  disabled={topping.disabled || !topping.available}
+                  onChange={(event) => changeToppings(event.target.checked, topping.name)}
                 />
               ))}
             </FormGroup>
@@ -197,30 +230,38 @@ export default function MyModal({ modalOpen, setModalOpen }) {
             <FormGroup>
               {pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
-                <div className={styles.ImageContainer} key={index}>
-                  <div className={styles.ImageOuter}>
-                    <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
+                  <div className={styles.ImageContainer} key={index}>
+                    <div className={styles.ImageOuter}>
+                      <Image height={150} width={150} className={styles.ImageContainerImage} src={pizza["image"]} alt={`Pizza ${pizza.name}`} />
+                    </div>
+                    <div className={styles.ImageText} key={index}>
+                      Pizza<br />{pizza.name}
+                      <div className={styles.toppingsList}>
+                        {pizza.name === "Custom"
+                          ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
+                        }
+                      </div>
+                    </div>
                   </div>
-                  <div className={styles.ImageText} key={index}>
-                    Pizza<br />{pizza.name}
-                    <div className={styles.toppingsList}>{pizza.toppingList.join(", ")}</div>
-                  </div>
-                </div>
-              )))}
+                )
+              ))}
               <h2 className={styles.modalH2}>Any additional toppings?</h2>
               {pizzaSettings["availablePizzas"].map((pizza, index) => (
                 pizza.name === order.type && (
-                  order.additionalToppings.map((topping, index) => (
-                    <FormControlLabel
-                      key={index}
-                      control={<Checkbox />}
-                      label={topping.name}
-                      checked={order.toppings.includes(topping["name"])}
-                      disabled={topping["disabled"] || !topping["available"]}
-                      onChange={(event) => changeIngredients(event.target.checked, topping["name"])}
-                    />
-
-                  ))
+                  pizza.extras.map((extra, idx) => {
+                    const toppingObj = pizzaSettings["allToppings"].find(t => t.name === extra);
+                    return (
+                      <FormControlLabel
+                        key={idx}
+                        control={<Checkbox />}
+                        label={extra}
+                        checked={order.toppings.includes(extra)}
+                        disabled={toppingObj?.disabled || !toppingObj?.available}
+                        onChange={(event) => changeToppings(event.target.checked, extra)}
+                      />
+                    );
+                  })
                 )
               ))}
             </FormGroup>
