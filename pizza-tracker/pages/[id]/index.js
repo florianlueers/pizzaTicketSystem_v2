@@ -6,6 +6,7 @@ export default function PizzaPage() {
   const { id } = router.query
 
   const [pizzaData, setPizzaData] = useState({})
+  const [eta, setEta] = useState(null)
   let pizzaStatus = { 
     "open": "has been received",
     "being prepared": "is being prepared",
@@ -15,13 +16,25 @@ export default function PizzaPage() {
   }
 
 
+  // useEffect(() => {
+  //   if (!id) return
+  //   fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaByDt0?dt0=${id}`)
+  //     .then(res => res.json())
+  //     .then(data => setPizzaData(data.message))
+  //     .catch(err => console.error(err))
+  // }, [id])
+
   useEffect(() => {
-    if (!id) return
-    fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaByDt0?dt0=${id}`)
+    if (!id) return;
+    fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaETA?dt0=${id}`)
       .then(res => res.json())
-      .then(data => setPizzaData(data.message))
-      .catch(err => console.error(err))
-  }, [id])
+      .then(data => {
+        setPizzaData(data.pizza);
+        setEta(data.eta);
+      })
+      .catch(err => console.error(err));
+  }, [id]);
+
   
 
   return (
@@ -38,6 +51,8 @@ export default function PizzaPage() {
         {pizzaData.dt2 ? (<p>In the Oven at {new Date(pizzaData.dt2).toLocaleTimeString("de-DE")}</p>) : null}
         {pizzaData.dt3 ? (<p>Ready for Pick-Up at {new Date(pizzaData.dt3).toLocaleTimeString("de-DE")}</p>) : null}
         {pizzaData.dt4 ? (<p>Order Completed at {new Date(pizzaData.dt4).toLocaleTimeString("de-DE")}</p>) : null}
+        {eta ? (<p>Estimated completion: {new Date(eta).toLocaleTimeString("de-DE")}</p>) : null}
+
       </>
     )
   )
