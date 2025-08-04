@@ -6,6 +6,14 @@ export default function PizzaPage() {
   const { id } = router.query
 
   const [pizzaData, setPizzaData] = useState({})
+  let pizzaStatus = { 
+    "open": "has been received",
+    "being prepared": "is being prepared",
+    "cooking": "is in the oven",
+    "available": "is ready for pick-up",
+    "done": "has been completed"
+  }
+
 
   useEffect(() => {
     if (!id) return
@@ -17,14 +25,20 @@ export default function PizzaPage() {
   
 
   return (
-    <>
-      <h1>Pizza Bestellung</h1>
-      <p>ID: {pizzaData._id}</p>
-      <p>Typ: {pizzaData.type}</p>
-      <p>Toppings: {Array.isArray(pizzaData.toppings) ? pizzaData.toppings.join(', ') : ''}</p>
-      <p>Name: {pizzaData.name}</p>
-      <p>Status: {pizzaData.status}</p>
-      <p>dt0: {pizzaData.dt0}</p>
-    </>
+    (!pizzaData._id) ? (
+      <p>Loading...</p>
+    ) : (
+      <>
+        <h1>Ciao {pizzaData.name}</h1>
+        {/** Hier kommt irgendwann Edit hin */}
+        <p>Your {pizzaData.type} pizza order {pizzaStatus[pizzaData.status]}.</p>
+        <hr/>
+        {pizzaData.dt0 ? (<p>Order Received at {new Date(pizzaData.dt0).toLocaleTimeString("de-DE")}</p>) : null}
+        {pizzaData.dt1 ? (<p>In Preparation at {new Date(pizzaData.dt1).toLocaleTimeString("de-DE")}</p>) : null}
+        {pizzaData.dt2 ? (<p>In the Oven at {new Date(pizzaData.dt2).toLocaleTimeString("de-DE")}</p>) : null}
+        {pizzaData.dt3 ? (<p>Ready for Pick-Up at {new Date(pizzaData.dt3).toLocaleTimeString("de-DE")}</p>) : null}
+        {pizzaData.dt4 ? (<p>Order Completed at {new Date(pizzaData.dt4).toLocaleTimeString("de-DE")}</p>) : null}
+      </>
+    )
   )
 }

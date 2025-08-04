@@ -58,7 +58,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   const setPizzaType = (pizza) => {
     if (pizza.name === "Custom") {
       // Hier können Sie die Logik für benutzerdefinierte Pizzen hinzufügen
-      setOrder((prevOrder) => ({ ...prevOrder, type: "custom", toppings:["tomato sauce"] }));
+      setOrder((prevOrder) => ({ ...prevOrder, type: "Custom", toppings:["tomato sauce"] }));
     } else {
       setOrder((prevOrder) => ({ ...prevOrder, type: pizza.name }));
     }
@@ -237,7 +237,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
         </div>
       )}
 
-      {order.step === 1 && order.type === "custom" && (
+      {order.step === 1 && order.type === "Custom" && (
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>Choose your Toppings:</h2>
           <Stack spacing={2}>
@@ -262,7 +262,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
         </div>
       )}
 
-      {order.step === 1 && order.type !== "custom" && (
+      {order.step === 1 && order.type !== "Custom" && (
         <div className={styles.ModalArea}>
           <h2 className={styles.modalH2}>You selected:</h2>
           <Stack spacing={2}>

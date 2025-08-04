@@ -41,12 +41,14 @@ const PizzaComponent = (pizza) => {
         if (status === "cooking") {
             newData.status = "available"
             newData.dt3 = Date.now()
+            // Notify user that pizza is ready
+            const audio = new Audio("/bell.mp3");
+            audio.play().catch(err => console.log("Autoplay blocked:", err));
         }
 
         if (status === "available") {
             newData.status = "done"
             newData.dt4 = Date.now()
-            // Notify user that pizza is ready
         }
         sendData(JSON.stringify(newData))
     }
