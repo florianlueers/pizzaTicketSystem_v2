@@ -6,7 +6,7 @@ const PizzaComponent = (pizza) => {
 
     async function sendData(data) {
         try {
-            const response = await fetch("http://localhost:3000/api/updatePizza", {
+            const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:3000/api/updatePizza", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

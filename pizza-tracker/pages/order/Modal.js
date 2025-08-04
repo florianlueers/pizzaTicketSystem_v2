@@ -11,7 +11,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
+      const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:3000/api/getAvailablePizzasAndToppings");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -134,7 +134,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     const updatedOrder = getUpdatedOrder(order);
 
     try {
-      const response = await fetch("http://localhost:3000/api/postPizza", {
+      const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:3000/api/postPizza", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

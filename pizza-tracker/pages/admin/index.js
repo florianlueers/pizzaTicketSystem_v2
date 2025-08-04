@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPizzaData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/getPizza");
+        const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizza");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -33,7 +33,7 @@ export default function Home() {
   useEffect(() => {
     const fetchToppings = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/getAvailablePizzasAndToppings");
+        const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:3000/api/getAvailablePizzasAndToppings");
         if (!response.ok) {
           throw new Error("Toppings fetch failed");
         }
