@@ -5,6 +5,48 @@ const { MongoClient } = require("mongodb");
 const url = "mongodb://root:root@mongo:27017";
 const client = new MongoClient(url);
 
+/**
+ * @swagger
+ * /api/setToppingAvailable:
+ *   post:
+ *     summary: Aktiviert ein Topping
+ *     description: Setzt das Feld `available` für ein bestimmtes Topping in den `settings` der MongoDB auf `true`.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Der Name des Toppings, das aktiviert werden soll
+ *                 example: "garlic oil"
+ *     responses:
+ *       200:
+ *         description: Topping erfolgreich aktiviert
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Topping wurde aktiviert
+ *       400:
+ *         description: Topping-Name fehlt
+ *       404:
+ *         description: Topping nicht gefunden oder bereits aktiviert
+ *       405:
+ *         description: Methode nicht erlaubt
+ *       500:
+ *         description: Interner Serverfehler
+ */
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Method Not Allowed" });
