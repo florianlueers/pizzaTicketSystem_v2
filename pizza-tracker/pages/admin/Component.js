@@ -46,6 +46,7 @@ const PizzaComponent = (pizza) => {
         if (status === "available") {
             newData.status = "done"
             newData.dt4 = Date.now()
+            // Notify user that pizza is ready
         }
         sendData(JSON.stringify(newData))
     }

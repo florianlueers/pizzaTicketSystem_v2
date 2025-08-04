@@ -1,132 +1,98 @@
 {
-    _id: ObjectId('688a2273f32bf601806eb955'),
-    availablePizzas: [
-        {
-            "name": "Margarita",
-            "image": "/margherita-pizza.png",
-            "extras": ["chili oil", "garlic oil"],
-            "toppingList": {
-                "required": ["tomato sauce", "mozzarella", "basil"],
-                "optional": []
-            }
-        },
-        {
-            "name": "Salami",
-            "image": "/salami-pizza.png",
-            "extras": ["basil", "chili oil", "garlic oil"],
-            "toppingList": {
-                "required": ["tomato sauce", "mozzarella"],
-                "optional": {
-                    "count": 1,
-                    "requiredCount": 1,
-                    "toppings": ["salami milano", "salami finocchino"]
-                }
-            }
-        },
-        {
-            "name": "Anti-Pasti",
-            "image": "/antipasti-pizza.png",
-            "extras": ["basil", "chili oil", "garlic oil"],
-            "toppingList": {
-                "required": ["tomato sauce", "mozzarella"],
-                "optional": {
-                    "count": 4,
-                    "requiredCount": 2,
-                    "toppings": ["olives", "artichokes", "sun-dried tomatoes", "mushrooms"]
-                }
-            }
-        },
-        {
-            "name": "Funghi",
-            "image": "/funghi-pizza.png",
-            "extras": ["chili oil", "garlic oil"],
-            "toppingList": {
-                "required": ["tomato sauce", "mozzarella", "mushrooms", "basil"]
-            }
-        },
-        {
-            "name": "Prosciutto",
-            "image": "/prosciutto-pizza.png",
-            "extras": ["chili oil", "garlic oil"],
-            "toppingList": {
-                "required": ["tomato sauce", "mozzarella", "prosciutto", "rucola"]
-            }
-        },
-        {
-            "name": "Custom",
-            "image": "/custom-pizza.png",
-            "extras": [],
-            "toppingList": {
-                "required": [],
-                "optional": []
-            }
+  _id: "688a2273f32bf601806eb955",
+  availablePizzas: [
+    {
+      "name": "Margarita",
+      "image": "/margherita-pizza.png",
+      "extras": ["chili oil", "garlic oil"],
+      "toppingList": {
+        "required": ["tomato sauce", "mozzarella", "basil"],
+        "optional": {
+          "toppings": [],
+          "count": 0,
+          "requiredCount": 0
         }
-    ],
-    allToppings: [
-        {
-            "name": "tomato sauce",
-            "disabled": true,
-            "available": true
-        },
-        {
-            "name": "mozzarella",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "salami milano",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "salami finocchino",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "olives",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "artichokes",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "sun-dried tomatoes",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "mushrooms",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "chili oil",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "garlic oil",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "basil",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "prosciutto",
-            "disabled": false,
-            "available": true
-        },
-        {
-            "name": "rucola",
-            "disabled": false,
-            "available": true
+      }
+    },
+    {
+      "name": "Salami",
+      "image": "/salami-pizza.png",
+      "extras": ["basil", "chili oil", "garlic oil"],
+      "toppingList": {
+        "required": ["tomato sauce", "mozzarella"],
+        "optional": {
+          "count": 1,
+          "requiredCount": 1,
+          "toppings": ["salami milano", "salami finocchino"]
         }
-    ]
+      }
+    },
+    {
+      "name": "Anti-Pasti",
+      "image": "/antipasti-pizza.png",
+      "extras": ["basil", "chili oil", "garlic oil"],
+      "toppingList": {
+        "required": ["tomato sauce", "mozzarella"],
+        "optional": {
+          "count": 4,
+          "requiredCount": 2,
+          "toppings": ["olives", "artichokes", "sun-dried tomatoes", "mushrooms"]
+        }
+      }
+    },
+    {
+      "name": "Funghi",
+      "image": "/funghi-pizza.png",
+      "extras": ["chili oil", "garlic oil"],
+      "toppingList": {
+        "required": ["tomato sauce", "mozzarella", "mushrooms", "basil"],
+        "optional": {
+          "toppings": [],
+          "count": 0,
+          "requiredCount": 0
+        }
+      }
+    },
+    {
+      "name": "Prosciutto",
+      "image": "/prosciutto-pizza.png",
+      "extras": ["chili oil", "garlic oil"],
+      "toppingList": {
+        "required": ["tomato sauce", "mozzarella", "prosciutto", "rucola"],
+        "optional": {
+          "toppings": [],
+          "count": 0,
+          "requiredCount": 0
+        }
+      }
+    },
+    {
+      "name": "Custom",
+      "image": "/custom-pizza.png",
+      "extras": [],
+      "toppingList": {
+        "required": [],
+        "optional": {
+          "toppings": [],
+          "count": 0,
+          "requiredCount": 0
+        }
+      }
+    }
+  ],
+  allToppings: [
+    { "name": "tomato sauce", "disabled": true, "available": true },
+    { "name": "mozzarella", "disabled": false, "available": true },
+    { "name": "salami milano", "disabled": false, "available": true },
+    { "name": "salami finocchino", "disabled": false, "available": true },
+    { "name": "olives", "disabled": false, "available": true },
+    { "name": "artichokes", "disabled": false, "available": true },
+    { "name": "sun-dried tomatoes", "disabled": false, "available": true },
+    { "name": "mushrooms", "disabled": false, "available": true },
+    { "name": "chili oil", "disabled": false, "available": true },
+    { "name": "garlic oil", "disabled": false, "available": true },
+    { "name": "basil", "disabled": false, "available": true },
+    { "name": "prosciutto", "disabled": false, "available": true },
+    { "name": "rucola", "disabled": false, "available": true }
+  ]
 }

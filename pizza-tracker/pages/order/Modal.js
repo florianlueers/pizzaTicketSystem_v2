@@ -1,6 +1,9 @@
 import Modal from 'react-modal';
 import styles from './Modal.module.css';
 
+import Swal from 'sweetalert2';
+import QRCode from 'qrcode';
+
 import { Stack, TextField, FormGroup, FormControlLabel, Checkbox, Button, avatarClasses } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -144,7 +147,21 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
       }
-      alert("Thank you, your order was placed.");
+      const pizzaUrl = `http://srv18.ikap.biba.uni-bremen.de:3000/${updatedOrder.dt0}`;
+      
+      QRCode.toDataURL(pizzaUrl, function (err, url) {
+        Swal.fire({
+          title: 'Your Order has been placed!',
+          html: `<p>Scan this QR code to view your pizza progress:</p>
+                <img src="${url}" alt="QR Code" />`,
+          icon: 'success',
+          background: '#281312',
+          color: '#F8F420',
+          timer: 120000,
+        });
+      });
+
+
     } catch (error) {
       console.error("Fehler beim Senden der Daten", error);
     }
@@ -184,6 +201,8 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                       <div className={styles.toppingsList}>
                         {pizza.name === "Custom"
                           ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.optional.count === 0
+                          ? pizza.toppingList.required.join(", ")
                           : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
                         }
                       </div>
@@ -205,6 +224,8 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                       <div className={styles.toppingsList}>
                         {pizza.name === "Custom"
                           ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.optional.count === 0
+                          ? pizza.toppingList.required.join(", ")
                           : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
                         }
                       </div>

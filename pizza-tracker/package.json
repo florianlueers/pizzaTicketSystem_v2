@@ -15,12 +15,15 @@
     "mongodb": "^6.3.0",
     "mui": "^0.0.1",
     "next": "^15.4.5",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
     "react": "^18",
     "react-dom": "^18",
     "react-modal": "^3.16.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui": "^5.27.1",
-    "swagger-ui-react": "^5.27.1"
+    "swagger-ui-react": "^5.27.1",
+    "sweetalert2": "^11.22.2"
   },
   "devDependencies": {
     "eslint": "^8",

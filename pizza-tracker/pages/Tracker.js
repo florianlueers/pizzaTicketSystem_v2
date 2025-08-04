@@ -12,14 +12,14 @@ function Pizza({ item }) {
 
     return (
         <div className={styles.Pizza}>
-            { /**<Link href={"variant2/" + item.dt0}> */}
+            <Link href={`${item.dt0}`}>
                 <Image
                     width="30"
                     height="30"
                     className={styles.PizzaIcon}
                     src={"/pizzaIcon.png"}
                     alt='PizzaIcon' />
-            { /**</Link>*/}
+            </Link>
             <div className={styles.PizzaInfo}>{item.name}: {capitalizeFirstLetter(item.type)}</div>
         </div>
     )
