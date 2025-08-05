@@ -30,18 +30,22 @@
   position: relative;
   z-index: 0; /* Inhalt liegt über Overlay */
   padding-top: 2rem; /* etwas Abstand oben */
+  display: flex;
+  justify-content: center;
 
 }
 
+
 .lol {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: lightgrey;
-    border-radius: 10px;
-    margin-top: 10px;
-    padding: 0px 30px 30px 30px;
-    opacity: 0.9;
+  display: block;
+  align-items: start;    /* optional: horizontal mittig */
+  
+  background-color: lightgrey;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 30px 30px 30px 30px;
+  opacity: 0.9;
+  width: fit-content;
 }
 
 .header {

@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import styles from "./index.module.css"
+
 
 export default function PizzaPage() {
   const router = useRouter()
@@ -51,22 +53,23 @@ export default function PizzaPage() {
   
 
   return (
-    (!pizzaData._id) ? (
-      <p>Loading...</p>
-    ) : (
-      <>
-        <h1>Ciao {pizzaData.name}! <br/>🍕🧑‍🍳😙🤌</h1>
-        {/** Hier kommt irgendwann Edit hin */}
-        <p>Your {pizzaData.type} pizza order {pizzaStatus[pizzaData.status]}.</p>
-        <hr/>
-        {pizzaData.dt0 ? (<p>Order Received at {new Date(pizzaData.dt0).toLocaleTimeString("de-DE")}</p>) : null}
-        {pizzaData.dt1 ? (<p>In Preparation at {new Date(pizzaData.dt1).toLocaleTimeString("de-DE")}</p>) : null}
-        {pizzaData.dt2 ? (<p>In the Oven at {new Date(pizzaData.dt2).toLocaleTimeString("de-DE")}</p>) : null}
-        {pizzaData.dt3 ? (<p>Ready for Pick-Up at {new Date(pizzaData.dt3).toLocaleTimeString("de-DE")}</p>) : null}
-        {pizzaData.dt4 ? (<p>Order Completed at {new Date(pizzaData.dt4).toLocaleTimeString("de-DE")}</p>) : null}
-        {eta ? (<p>Estimated completion: {new Date(eta).toLocaleTimeString("de-DE")}</p>) : null}
-
-      </>
-    )
+    <div className={styles.container}>
+      <div className={styles.overlay}>
+        <div className={styles.mainBody}>
+          <div className={styles.lol}>
+            <h1>Ciao {pizzaData.name}! <br/>🍕🧑‍🍳😙🤌</h1>
+            {/** Hier kommt irgendwann Edit hin */}
+            <p>Your {pizzaData.type} pizza order {pizzaStatus[pizzaData.status]}.</p>
+            <hr/>
+            {pizzaData.dt0 ? (<p>Order Received at {new Date(pizzaData.dt0).toLocaleTimeString("de-DE")}</p>) : null}
+            {pizzaData.dt1 ? (<p>In Preparation at {new Date(pizzaData.dt1).toLocaleTimeString("de-DE")}</p>) : null}
+            {pizzaData.dt2 ? (<p>In the Oven at {new Date(pizzaData.dt2).toLocaleTimeString("de-DE")}</p>) : null}
+            {pizzaData.dt3 ? (<p>Ready for Pick-Up at {new Date(pizzaData.dt3).toLocaleTimeString("de-DE")}</p>) : null}
+            {pizzaData.dt4 ? (<p>Order Completed at {new Date(pizzaData.dt4).toLocaleTimeString("de-DE")}</p>) : null}
+            {eta ? (<p>Estimated completion: {new Date(eta).toLocaleTimeString("de-DE")}</p>) : null}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
