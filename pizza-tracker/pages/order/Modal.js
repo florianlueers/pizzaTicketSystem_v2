@@ -133,6 +133,8 @@ export default function MyModal({ modalOpen, setModalOpen }) {
   }
 
   // Funktion zum Senden der Bestellung
+  const [eta, setEta] = useState(null);
+
   const sendOrder = async () => {
     const updatedOrder = getUpdatedOrder(order);
 
@@ -147,13 +149,23 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
       }
+
+      const eta_response = await fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaETA?dt0=${updatedOrder.dt0}`);
+      if (!eta_response.ok) {
+        throw new Error(`HTTP Error: ${eta_response.status}`);
+      }
+      const eta_data = await eta_response.json();
+      console.log(eta_data);
+      setEta(eta_data.eta);
+
       const pizzaUrl = `http://srv18.ikap.biba.uni-bremen.de:3000/${updatedOrder.dt0}`;
       
       QRCode.toDataURL(pizzaUrl, function (err, url) {
         Swal.fire({
           title: 'Your Order has been placed!',
           html: `<p>Scan this QR code to view your pizza progress:</p>
-                <img src="${url}" alt="QR Code" />`,
+          <img src="${url}" alt="QR Code" />
+          <p>Initial estimated pick-up-time at ${new Date(eta).toLocaleTimeString("de-DE", { hour: '2-digit', minute: '2-digit' })}</p>`,
           icon: 'success',
           background: '#281312',
           color: '#F8F420',
@@ -278,6 +290,8 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                       <div className={styles.toppingsList}>
                         {pizza.name === "Custom"
                           ? "Create your own pizza with your favorite toppings!"
+                          : pizza.toppingList.optional.count === 0
+                          ? pizza.toppingList.required.join(", ")
                           : pizza.toppingList.required.join(", ") + ", " + getAvailableOptionalToppings(pizza).join(", ")
                         }
                       </div>

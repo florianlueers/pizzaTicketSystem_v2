@@ -55,7 +55,7 @@ export default function PizzaPage() {
       <p>Loading...</p>
     ) : (
       <>
-        <h1>Ciao {pizzaData.name}! 🍕🧑‍🍳😙🤌</h1>
+        <h1>Ciao {pizzaData.name}! <br/>🍕🧑‍🍳😙🤌</h1>
         {/** Hier kommt irgendwann Edit hin */}
         <p>Your {pizzaData.type} pizza order {pizzaStatus[pizzaData.status]}.</p>
         <hr/>
