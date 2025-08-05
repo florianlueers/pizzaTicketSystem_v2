@@ -7,10 +7,10 @@ const client = new MongoClient(url);
 
 /**
  * @swagger
- * /api/getPizzaByDt0:
+ * /api/getPizzaETA:
  *   get:
- *     summary: Gibt eine bestimmte Pizza anhand ihres dt0-Timestamps zurück
- *     description: Diese Route sucht in der MongoDB nach einer Pizza mit dem angegebenen `dt0`-Wert.
+ *     summary: Berechnet den geschätzten Fertigstellzeitpunkt (ETA) einer Pizza.
+ *     description: Diese Route sucht in der MongoDB nach einer Pizza mit dem angegebenen `dt0`-Wert und berechnet den geschätzten Fertigstellzeitpunkt.
  *     parameters:
  *       - in: query
  *         name: dt0

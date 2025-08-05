@@ -26,15 +26,28 @@ export default function PizzaPage() {
 
   useEffect(() => {
     if (!id) return;
-    fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaETA?dt0=${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setPizzaData(data.pizza);
-        setEta(data.eta);
-      })
-      .catch(err => console.error(err));
-  }, [id]);
 
+    // Funktion zum Holen der Daten
+    const fetchPizza = () => {
+      fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaETA?dt0=${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setPizzaData(data.pizza);
+          setEta(data.eta);
+        })
+        .catch(err => console.error(err));
+    };
+
+    // Direkt beim ersten Rendern holen
+    fetchPizza();
+
+    // Dann alle 5 Sekunden wiederholen
+    const intervalId = setInterval(fetchPizza, 5000);
+
+    // Aufräumen, wenn Komponente entladen oder id geändert wird
+    return () => clearInterval(intervalId);
+
+  }, [id]);
   
 
   return (
@@ -42,7 +55,7 @@ export default function PizzaPage() {
       <p>Loading...</p>
     ) : (
       <>
-        <h1>Ciao {pizzaData.name}</h1>
+        <h1>Ciao {pizzaData.name}! 🍕🧑‍🍳😙🤌</h1>
         {/** Hier kommt irgendwann Edit hin */}
         <p>Your {pizzaData.type} pizza order {pizzaStatus[pizzaData.status]}.</p>
         <hr/>
