@@ -31,7 +31,7 @@ export default function PizzaPage() {
 
     // Funktion zum Holen der Daten
     const fetchPizza = () => {
-      fetch(`http://srv18.ikap.biba.uni-bremen.de:3000/api/getPizzaETA?dt0=${id}`)
+      fetch(`https://pizzademo.ikap.biba.uni-bremen.de/api/getPizzaETA?dt0=${id}`)
         .then(res => res.json())
         .then(data => {
           setPizzaData(data.pizza);
