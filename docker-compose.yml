@@ -31,7 +31,7 @@ services:
       - ./pizza-tracker/:/app/
     command: npm run dev
     ports:
-      - "3000:3000"
+      - "80:80"
     environment:
       - NODE_ENV=development
 

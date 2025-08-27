@@ -72,7 +72,7 @@ export default function Tracker() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch("https://pizzademo.ikap.biba.uni-bremen.de/api/getPizza");
+            const response = await fetch("http://srv18.ikap.biba.uni-bremen.de:80/api/getPizza");
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }

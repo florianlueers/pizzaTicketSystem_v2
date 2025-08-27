@@ -14,7 +14,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://pizzademo.ikap.biba.uni-bremen.de/api/getAvailablePizzasAndToppings");
+      const response = await fetch("http://srv18.ikap.biba.uni-bremen.de/api/getAvailablePizzasAndToppings");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -139,7 +139,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
     const updatedOrder = getUpdatedOrder(order);
 
     try {
-      const response = await fetch("https://pizzademo.ikap.biba.uni-bremen.de/api/postPizza", {
+      const response = await fetch("http://srv18.ikap.biba.uni-bremen.de/api/postPizza", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -150,7 +150,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
         throw new Error(`HTTP Error: ${response.status}`);
       }
 
-      const eta_response = await fetch(`https://pizzademo.ikap.biba.uni-bremen.de/api/getPizzaETA?dt0=${updatedOrder.dt0}`);
+      const eta_response = await fetch(`http://srv18.ikap.biba.uni-bremen.de/api/getPizzaETA?dt0=${updatedOrder.dt0}`);
       if (!eta_response.ok) {
         throw new Error(`HTTP Error: ${eta_response.status}`);
       }
@@ -158,7 +158,7 @@ export default function MyModal({ modalOpen, setModalOpen }) {
       console.log(eta_data);
       setEta(eta_data.eta);
 
-      const pizzaUrl = `https://pizzademo.ikap.biba.uni-bremen.de/${updatedOrder.dt0}`;
+      const pizzaUrl = `http://srv18.ikap.biba.uni-bremen.de/${updatedOrder.dt0}`;
       
       QRCode.toDataURL(pizzaUrl, function (err, url) {
         Swal.fire({
