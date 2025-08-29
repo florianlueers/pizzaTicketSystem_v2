@@ -81,18 +81,18 @@
     }
   ],
   allToppings: [
-    { "name": "tomato sauce", "disabled": true, "available": true },
-    { "name": "mozzarella", "disabled": false, "available": true },
-    { "name": "salami milano", "disabled": false, "available": true },
-    { "name": "salami finocchino", "disabled": false, "available": true },
-    { "name": "olives", "disabled": false, "available": true },
-    { "name": "artichokes", "disabled": false, "available": true },
-    { "name": "sun-dried tomatoes", "disabled": false, "available": true },
-    { "name": "mushrooms", "disabled": false, "available": true },
-    { "name": "chili oil", "disabled": false, "available": true },
-    { "name": "garlic oil", "disabled": false, "available": true },
-    { "name": "basil", "disabled": false, "available": true },
-    { "name": "prosciutto", "disabled": false, "available": true },
-    { "name": "rucola", "disabled": false, "available": true }
+    { "name": "tomato sauce", "available": true },
+    { "name": "mozzarella", "available": true },
+    { "name": "salami milano", "available": true },
+    { "name": "salami finocchino", "available": true },
+    { "name": "olives", "available": true },
+    { "name": "artichokes", "available": true },
+    { "name": "sun-dried tomatoes", "available": true },
+    { "name": "mushrooms", "available": true },
+    { "name": "chili oil", "available": true },
+    { "name": "garlic oil", "available": true },
+    { "name": "basil", "available": true },
+    { "name": "prosciutto", "available": true },
+    { "name": "rucola", "available": true }
   ]
 }

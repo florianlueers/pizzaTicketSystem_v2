@@ -260,7 +260,6 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                   control={<Checkbox />}
                   label={topping.name}
                   checked={order.toppings.includes(topping.name)}
-                  disabled={topping.disabled || !topping.available}
                   onChange={(event) => changeToppings(event.target.checked, topping.name)}
                 />
               ))}
@@ -310,7 +309,6 @@ export default function MyModal({ modalOpen, setModalOpen }) {
                         control={<Checkbox />}
                         label={extra}
                         checked={order.toppings.includes(extra)}
-                        disabled={toppingObj?.disabled || !toppingObj?.available}
                         onChange={(event) => changeToppings(event.target.checked, extra)}
                       />
                     );
